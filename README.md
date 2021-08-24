@@ -1,70 +1,208 @@
-# Getting Started with Create React App
+# startup ovs
+export PATH=$PATH:/usr/local/share/openvswitch/scripts
+ovs-ctl start
+export PATH=$PATH:/usr/local/share/openvswitch/scripts
+ovs-ctl --no-ovs-vswitchd start
+export PATH=$PATH:/usr/local/share/openvswitch/scripts
+ovs-ctl --no--ovsdb-server start
+mkdir -p /usr/local/etc/openvswitch
+ovsdb-tool create /usr/local/etc/openvswitch/conf.db vswitchd/vswitch.ovsschema
+mkdir -p /usr/local/var/run/openvswitch
+ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock --remote=db:Open_vSwitch,Open_vSwitch,manager_options --private-key=db:Open_vSwitch,SSL,private_key --certificate=db:Open_vSwitch,SSL,certificate --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --pidfile --detach --log-file
+ovs-vsctl --no-wait init
+ovs-vswitchd --pidfile --detach --log-file
+cat /dev/null > /var/log/syslog
+ovs-appctl vlog/set ANY:syslog:info
+ovs-vsctl show
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+mn --custom /home/mininet/Projects/ryu/mytopo.py --topo mytopo --controller=remote
+##
+ryu-manager /home/mininet/Projects/ryu/controller.py /home/mininet/Projects/ryu/ofctl_rest.py --observe-links
 
-## Available Scripts
+#
+py s1.attach('s1-eth4')
+py s2.attach('s2-eth3')
+py s3.attach('s3-eth3')
+py s4.attach('s4-eth4')
+py net.addLink(s1, c0)
+py net.addLink(s2, c0)
+py net.addLink(s3, c0)
+py net.addLink(s4, c0)
+py s1.cmd('ifconfig s1-eth4 10.0.1.1')
+py s2.cmd('ifconfig s2-eth3 10.0.1.2')
+py s3.cmd('ifconfig s3-eth3 10.0.1.3')
+py s4.cmd('ifconfig s4-eth4 10.0.1.4')
+pingall
+pingall
 
-In the project directory, you can run:
 
-### `npm start`
+REST API
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Retrieve the switch stats
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+get the list of all switches
+GET /stats/switches
 
-### `npm test`
+get the desc stats of the switch
+GET /stats/desc/<dpid>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+get flows desc stats of the switch
+GET /stats/flowdesc/<dpid>
 
-### `npm run build`
+get flows desc stats of the switch filtered by the fields
+POST /stats/flowdesc/<dpid>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+get flows stats of the switch
+GET /stats/flow/<dpid>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+get flows stats of the switch filtered by the fields
+POST /stats/flow/<dpid>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+get aggregate flows stats of the switch
+GET /stats/aggregateflow/<dpid>
 
-### `npm run eject`
+get aggregate flows stats of the switch filtered by the fields
+POST /stats/aggregateflow/<dpid>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+get table stats of the switch
+GET /stats/table/<dpid>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+get table features stats of the switch
+GET /stats/tablefeatures/<dpid>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+get ports stats of the switch
+GET /stats/port/<dpid>[/<port>]
+Note: Specification of port number is optional
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+get queues stats of the switch
+GET /stats/queue/<dpid>[/<port>[/<queue_id>]]
+Note: Specification of port number and queue id are optional
+      If you want to omitting the port number and setting the queue id,
+      please specify the keyword "ALL" to the port number
+      e.g. GET /stats/queue/1/ALL/1
 
-## Learn More
+get queues config stats of the switch
+GET /stats/queueconfig/<dpid>[/<port>]
+Note: Specification of port number is optional
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+get queues desc stats of the switch
+GET /stats/queuedesc/<dpid>[/<port>[/<queue_id>]]
+Note: Specification of port number and queue id are optional
+      If you want to omitting the port number and setting the queue id,
+      please specify the keyword "ALL" to the port number
+      e.g. GET /stats/queuedesc/1/ALL/1
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+get meter features stats of the switch
+GET /stats/meterfeatures/<dpid>
 
-### Code Splitting
+get meter config stats of the switch
+GET /stats/meterconfig/<dpid>[/<meter_id>]
+Note: Specification of meter id is optional
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+get meter desc stats of the switch
+GET /stats/meterdesc/<dpid>[/<meter_id>]
+Note: Specification of meter id is optional
 
-### Analyzing the Bundle Size
+get meters stats of the switch
+GET /stats/meter/<dpid>[/<meter_id>]
+Note: Specification of meter id is optional
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+get group features stats of the switch
+GET /stats/groupfeatures/<dpid>
 
-### Making a Progressive Web App
+get groups desc stats of the switch
+GET /stats/groupdesc/<dpid>[/<group_id>]
+Note: Specification of group id is optional (OpenFlow 1.5 or later)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+get groups stats of the switch
+GET /stats/group/<dpid>[/<group_id>]
+Note: Specification of group id is optional
 
-### Advanced Configuration
+get ports description of the switch
+GET /stats/portdesc/<dpid>[/<port_no>]
+Note: Specification of port number is optional (OpenFlow 1.5 or later)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Update the switch stats
 
-### Deployment
+add a flow entry
+POST /stats/flowentry/add
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+modify all matching flow entries
+POST /stats/flowentry/modify
 
-### `npm run build` fails to minify
+modify flow entry strictly matching wildcards and priority
+POST /stats/flowentry/modify_strict
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+delete all matching flow entries
+POST /stats/flowentry/delete
+
+delete flow entry strictly matching wildcards and priority
+POST /stats/flowentry/delete_strict
+
+delete all flow entries of the switch
+DELETE /stats/flowentry/clear/<dpid>
+
+add a meter entry
+POST /stats/meterentry/add
+
+modify a meter entry
+POST /stats/meterentry/modify
+
+delete a meter entry
+POST /stats/meterentry/delete
+
+add a group entry
+POST /stats/groupentry/add
+
+modify a group entry
+POST /stats/groupentry/modify
+
+delete a group entry
+POST /stats/groupentry/delete
+
+modify behavior of the physical port
+POST /stats/portdesc/modify
+
+modify role of controller
+POST /stats/role
+
+
+send a experimeter message
+POST /stats/experimenter/<dpid>
+
+
+上传小程序，body中存放小程序
+PUT /stats/program/<dpid>/<name>
+成功返回 {"msg": "OK", "code": 0}
+失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+
+删除小程序
+DELETE /stats/program/<dpid>/<name>
+成功返回 {"msg": "OK", "code": 0}
+失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+
+查询当前所有小程序及其信息
+GET /stats/program/<dpid>
+成功返回 {"msg": "小程序信息", "code": 0}，小程序信息格式：名称、创建时间、大小\n...名称、创建时间、大小\n
+失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+
+上传配置文件，config_id即为配置文件名称，body中存放配置文件，格式为name\nparameter
+PUT /stats/config/<dpid>/<config_id>
+成功返回 {"msg": "OK", "code": 0}
+失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+
+删除配置文件
+DELETE /stats/config/<dpid>/<config_id>
+成功返回 {"msg": "OK", "code": 0}
+失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+
+查询当前所有配置文件及其信息
+GET /stats/config/<dpid>
+成功返回 {"msg": "配置文件信息", "code": 0}，配置文件信息格式：名称、创建时间、大小\n...名称、创建时间、大小\n
+失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+
+执行 shell 命令，body中存放shell命令
+POST /stats/shell/<dpid>
+成功返回 {"msg": "执行结果信息", "code": 0}，执行结果信息为原信息即shell原生结果
+失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+
