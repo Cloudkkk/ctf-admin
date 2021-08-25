@@ -62,7 +62,9 @@ export default function App() {
         <Header
           className="site-layout-sub-header-background"
           style={{ padding: 0 }}
-        />
+        >
+          Header
+        </Header>
         <Content style={{ margin: "24px 16px 0" }}>
           <div
             className="site-layout-background"
