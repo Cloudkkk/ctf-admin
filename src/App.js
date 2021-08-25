@@ -1,11 +1,10 @@
 import React from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, PageHeader } from "antd";
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { BrowserRouter } from "react-router-dom";
 import { Link, Route } from "react-router-dom";
 import One from "./pages/One";
 import Two from "./pages/Two";
@@ -63,7 +62,7 @@ export default function App() {
           className="site-layout-sub-header-background"
           style={{ padding: 0 }}
         >
-          Header
+          <PageHeader title={"Header"}></PageHeader>
         </Header>
         <Content style={{ margin: "24px 16px 0" }}>
           <div
