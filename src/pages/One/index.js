@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 export default function One() {
   const [data, setData] = useState();
   const [loadStatus, setLoadStatus] = useState();
+  const [dpid,setDpid]= useState([])
+
   const columns = [
     {
       title: "Name",
@@ -24,63 +26,64 @@ export default function One() {
     },
   ];
   useEffect(() => {
-    // const a = "";
-    // axios({
-    //   method: "get",
-    //   url: "http://web.juhe.cn/environment/air/cityair",
-    //   params: {
-    //     city: "北京",
-    //     key: "ae3dd4398ddb67c891f8735d4e9bddf3",
-    //   },
-    // }).then(function (response) {
-    //   arr.push(response);
-    //   a = response;
-    //   console.log(typeof a);
-    //   console.log(":", a);
-    // });
+    
+    axios({
+      method: "get",
+      url: "http://192.168.195.128:8080/stats/net/edge",
+    }).then(function (response) {
+      setDpid(response.data)
+    });
+    console.log(Object.prototype.toString.call(dpid) );
     setLoadStatus(true);
-    setTimeout(() => {
-      console.log("3000ms");
-      console.log(loadStatus);
-      setLoadStatus(false);
-      setData([
-        {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park",
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 1 Lake Park",
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park",
-        },
-        {
-          key: "4",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park",
-        },
-        {
-          key: "5",
-          name: "Joe Black",
-          age: 32,
-          address: "Sidney No. 1 Lake Park",
-        },
-      ]);
-    }, 3000);
+
+  //   setTimeout(() => {
+  //     console.log("3000ms");
+  //     console.log(loadStatus);
+  //     setLoadStatus(false);
+  //     setData([
+  //       {
+  //         key: "1",
+  //         name: "John Brown",
+  //         age: 32,
+  //         address: "New York No. 1 Lake Park",
+  //       },
+  //       {
+  //         key: "2",
+  //         name: "Jim Green",
+  //         age: 42,
+  //         address: "London No. 1 Lake Park",
+  //       },
+  //       {
+  //         key: "3",
+  //         name: "Joe Black",
+  //         age: 32,
+  //         address: "Sidney No. 1 Lake Park",
+  //       },
+  //       {
+  //         key: "4",
+  //         name: "Joe Black",
+  //         age: 32,
+  //         address: "Sidney No. 1 Lake Park",
+  //       },
+  //       {
+  //         key: "5",
+  //         name: "Joe Black",
+  //         age: 32,
+  //         address: "Sidney No. 1 Lake Park",
+  //       },
+  //     ]);
+  //   }, 3000);
   }, []);
 
   return (
+    
     <div>
-      {<Table columns={columns} dataSource={data} loading={loadStatus}></Table>}
+      {dpid.map((i)=>{
+        return (
+          <button>{i}</button>
+        )
+      })}
+      {/* {<Table columns={columns} dataSource={data} loading={loadStatus}></Table>} */}
     </div>
   );
 }
