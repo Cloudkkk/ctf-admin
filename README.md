@@ -38,6 +38,7 @@ pingall
 
 REST API
 
+
 Retrieve the switch stats
 
 get the list of all switches
@@ -170,39 +171,134 @@ POST /stats/role
 send a experimeter message
 POST /stats/experimenter/<dpid>
 
-
 上传小程序，body中存放小程序
 PUT /stats/program/<dpid>/<name>
-成功返回 {"msg": "OK", "code": 0}
-失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+成功返回 {"code": 0, "msg": "OK"}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
 
 删除小程序
 DELETE /stats/program/<dpid>/<name>
-成功返回 {"msg": "OK", "code": 0}
-失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+成功返回 {"code": 0, "msg": "OK"}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
 
 查询当前所有小程序及其信息
 GET /stats/program/<dpid>
-成功返回 {"msg": "小程序信息", "code": 0}，小程序信息格式：名称、创建时间、大小\n...名称、创建时间、大小\n
-失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+成功返回 {"code": 0, "msg": [[名称,创建时间,大小],...[名称,创建时间,大小]]}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
 
-上传配置文件，config_id即为配置文件名称，body中存放配置文件，格式为name\nparameter
-PUT /stats/config/<dpid>/<config_id>
-成功返回 {"msg": "OK", "code": 0}
-失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+上传配置文件，body中存放配置文件的json数据
+PUT /stats/config/<dpid>/<id>
+数据格式 {"name": "小程序名称", "parameter": "小程序参数"}
+成功返回 {"code": 0, "msg": "OK"}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
 
 删除配置文件
-DELETE /stats/config/<dpid>/<config_id>
-成功返回 {"msg": "OK", "code": 0}
-失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+DELETE /stats/config/<dpid>/<id>
+成功返回 {"code": 0, "msg": "OK"}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
 
 查询当前所有配置文件及其信息
 GET /stats/config/<dpid>
-成功返回 {"msg": "配置文件信息", "code": 0}，配置文件信息格式：名称、创建时间、大小\n...名称、创建时间、大小\n
-失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+成功返回 {"code": 0, "msg": [[名称,创建时间,大小],...[名称,创建时间,大小]]}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
+
+查询所有用户信息
+GET /stats/user/<dpid>
+成功返回 {"code": 0, "msg": [[用户名称,uid],...[用户名称,uid]]}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
+
+上传文件，向ovs中发送文件
+POST /stats/file/<dpid>
+数据格式 {"path": "", "file": }
+成功返回 {"code": 0, "msg": "OK"}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
+
+下载文件，从ovs中获取文件，path为要获取的ovs中的文件路径
+GET /stats/file/<dpid>
+数据格式 {"path": ""}
+成功返回 文件数据
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
 
 执行 shell 命令，body中存放shell命令
-POST /stats/shell/<dpid>
-成功返回 {"msg": "执行结果信息", "code": 0}，执行结果信息为原信息即shell原生结果
-失败返回 {"msg": "错误信息", "code": x},x为错误码，非0
+PUT /stats/shell/<dpid>
+成功返回 {"code": 0, "msg": "执行结果信息"}，执行结果信息为原信息即shell原生结果
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
 
+以上功能均需要与ovs进行通信，请勿频繁调用
+
+
+获取所有交换机信息
+GET /stats/net/switches
+成功返回 {"code": 0, "msg":[
+		{
+			"dpid": "0000000000000008",
+			"ports": [
+				{
+					"dpid": "0000000000000008",
+					"port_no": "00000002",
+					"hw_addr": "da:83:d7:e9:32:bb",
+					"name": "s8-eth2"
+				}
+			]
+		}
+  ]
+失败返回 {"code": 0, "msg": []},
+
+获取所有主机信息
+GET /stats/net/hosts
+成功返回 {"code": 0, "msg":[
+		{
+			"mac": "22:8a:68:a5:ae:87",
+			"ipv4": [
+				"10.0.0.1"
+			],
+			"ipv6": [],
+			"port": {
+				"dpid": "0000000000000001",
+				"port_no": "00000001",
+				"hw_addr": "16:b6:49:eb:3b:bb",
+				"name": "s1-eth1"
+			}
+		}
+  ]
+失败返回 {"code": 0, "msg": []},
+
+获取所有链路信息
+GET /stats/net/links
+成功返回 {"code": 0, "msg":[
+		{
+			"src": {
+				"dpid": "0000000000000007",
+				"port_no": "00000003",
+				"hw_addr": "12:4f:ca:47:20:a0",
+				"name": "s7-eth3"
+			},
+			"dst": {
+				"dpid": "0000000000000008",
+				"port_no": "00000002",
+				"hw_addr": "da:83:d7:e9:32:bb",
+				"name": "s8-eth2"
+			}
+		}
+  ]
+失败返回 {"code": 0, "msg": []},
+
+获取当前正在使用的算法和密钥
+GET /stats/net/program
+成功返回 {"code": 0, "msg": {"dpid": {("name", "parameter"),}}}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
+
+获取所有小程序的运行身份
+GET /stats/net/config
+成功返回 {"code": 0, "msg": {"name": uid}}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
+
+设置小程序运行身份，name为小程序名称，uid为运行身份
+POST /stats/net/config/<name>/<uid>
+成功返回 {"code": 0, "msg": "OK"}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
+
+获取所有源和目的交换机的 dpid
+GET /stats/net/edge
+成功返回 {"code": 0, "msg": ["0000000000000001",...]}
+失败返回 {"code": x, "msg": "错误信息"},x为错误码，非0
