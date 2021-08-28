@@ -85,9 +85,15 @@ export default function Five() {
       })}
       </div >
       <div className={"down"}>
-<Upload {...props}>
-    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+      <Search  placeholder="输入Shell脚本" allowClear enterButton="自定义shell配置" size="large"  onSearch={()=>{setTimeout(() => {
+        success()
+      }, 1000);}}
+      />
+      <div className="down">
+<Upload {...props} >
+    <Button icon={<UploadOutlined />}>上传配置文件</Button>
   </Upload>
+  </div>
   </div>
   </div>
   );

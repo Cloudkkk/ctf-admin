@@ -31,20 +31,20 @@ export default function Six() {
     key: '1',
     a: 'S1',
     b: 13,
-    c:"3.5 GB/30 GB",
-    d:"1.5 GB/4 GB"
+    c:"3.5 GB/8 GB",
+    d:"1.5 GB/1 GB"
   },{
     key: '2',
     a: 'S2',
     b: 14,
-    c:"4.5 GB/30 GB",
-    d:"1.8 GB/4 GB"
+    c:"4.5 GB/8 GB",
+    d:"1.8 GB/1 GB"
   },{
     key: '3',
     a: 'S3',
     b: 18,
-    c:"3.8 GB/30 GB",
-    d:"2.1 GB/4 GB"
+    c:"3.8 GB/8 GB",
+    d:"2.1 GB/1 GB"
   },]
   return(<div>
      {< Table columns = {

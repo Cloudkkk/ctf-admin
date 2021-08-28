@@ -32,7 +32,7 @@ export default function Two() {
       setcValue(e.target.value)
     }
     const handleChangec_ = (e)=>{
-      setpValue_(e.target.value)
+      setcValue_(e.target.value)
     }
        const success = () => {
       message.success('操作成功');
@@ -139,7 +139,7 @@ export default function Two() {
       dataIndex: "time",
       key: "time"
     }, {
-      title: "Size",
+      title: "Size(byte)",
       dataIndex: "size",
       key: "size"
     }
