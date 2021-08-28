@@ -54,6 +54,21 @@ export default function Two() {
     
     return tempArr;
   }
+  const Parse_ = (arr) => {
+    let tempArr = [];
+    if (Array.isArray(arr)) {
+      arr.forEach((item) => {
+        let obj = {
+          name: item[0],
+          time: item[1],
+          size: item[2]
+        }
+        tempArr.push(obj);
+      })
+    }
+    
+    return tempArr;
+  }
   // 请求小程序和配置文件
   const myRequest = (i) => {
     success()
@@ -64,8 +79,8 @@ export default function Two() {
         // console.log(program,typeof program);
       });
     axios({method: "get", url: `${url}/stats/config/${i}`, type: 'json'}).then(function (response) {
-      setConfig(Parse(response.data.msg));
-      console.log(Parse(response.data.msg));
+      setConfig(Parse_(response.data.msg));
+      console.log(Parse_(response.data.msg));
       // console.log(program,typeof program);
     });
 
