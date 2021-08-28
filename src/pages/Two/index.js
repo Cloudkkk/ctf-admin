@@ -44,7 +44,7 @@ export default function Two() {
     if (Array.isArray(arr)) {
       arr.forEach((item) => {
         let obj = {
-          name: item[0].split('_')[1],
+          name: (item[0].split('_')[1]+item[0].split('_')[2]),
           time: item[1],
           size: item[2]
         }
