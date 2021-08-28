@@ -4,8 +4,10 @@ import {Table, Tag, loading, Input,Upload, Button, message} from "antd";
 import {useEffect, useState,useRef} from "react";
 
 import { UploadOutlined } from '@ant-design/icons';
-
+import urlObj from "../../const/const"
+import "../../App.css"
 export default function Five() {
+  const {url} = urlObj;
   const {Search} = Input;
   const [loadStatus,
     setLoadStatus] = useState();
@@ -34,7 +36,7 @@ export default function Five() {
     };
   // // 请求小程序和配置文件
   // const myRequest = () => {
-  //   axios({method: "get", url: `http://192.168.35.128:8080/stats/net/config`, type: 'json'})
+  //   axios({method: "get", url: `${url}/stats/net/config`, type: 'json'})
   //     .then(function (response) {
   //       setProgram(Parse(response.data));
   //       console.log(Parse(response.data));
@@ -44,7 +46,7 @@ export default function Five() {
   //tianjia xiaochengxu
 
   useEffect(() => {
-    axios({method: "get", url: "http://192.168.35.128:8080/stats/net/edge"})
+    axios({method: "get", url: `${url}/stats/net/edge`})
       .then(function (response) {
         setDpid(response.data)
       });
@@ -76,16 +78,17 @@ export default function Five() {
     <div>
       选择目标交换机 {dpid.map((i) => {
         return (
-          <button onClick={() => {
+          <Button onClick={() => {
            success()
-          }}>{i}</button>
+          }}>{i}</Button>
         )
       })}
-      </div>
+      </div >
+      <div className={"down"}>
 <Upload {...props}>
     <Button icon={<UploadOutlined />}>Click to Upload</Button>
-  </Upload>,
-
+  </Upload>
+  </div>
   </div>
   );
 }

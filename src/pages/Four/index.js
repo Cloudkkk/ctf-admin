@@ -1,9 +1,12 @@
 import React from "react";
 import axios from "axios";
-import {Table, Tag, loading, Input} from "antd";
+import {Table, Tag, loading, Input,message,Button} from "antd";
 import {useEffect, useState,useRef} from "react";
 import create from "@ant-design/icons/lib/components/IconFont";
+import "../../App.css";
+import urlObj from "../../const/const"
 export default function Four() {
+  const {url} = urlObj;
   const {Search} = Input;
   const [loadStatus,
     setLoadStatus] = useState();
@@ -26,8 +29,11 @@ export default function Four() {
     const handleChangep_ = (e)=>{
       setpValue_(e.target.value)
     }
-
-  //解析传回来的数据
+    const success = () => {
+      message.success('选择成功');
+    };
+    
+  //解析传回来的数据 对象套对象？？
   const Parse = (obj) => {
     var arr = []
     for (let i in obj) {
@@ -42,7 +48,8 @@ export default function Four() {
   }
   // 请求小程序和配置文件
   const myRequest = () => {
-    axios({method: "get", url: `http://192.168.35.128:8080/stats/net/config`, type: 'json'})
+    success()
+    axios({method: "get", url: `${url}/stats/net/config`, type: 'json'})
       .then(function (response) {
         setProgram(Parse(response.data));
         console.log(Parse(response.data));
@@ -52,7 +59,7 @@ export default function Four() {
   //tianjia xiaochengxu
   const addProg = () => {
   let name = pValue;
-    axios({method: "put", url: `http://192.168.35.128:8080/stats/program/${dpid[0]}/${name}`, type: 'json'})
+    axios({method: "put", url: `${url}/stats/program/${dpid[0]}/${name}`, type: 'json'})
       .then(function (response) {
         console.log(response);
         // console.log(program,typeof program);
@@ -63,7 +70,7 @@ export default function Four() {
   }
   const delProg = () => {
     let name = pValue_;
-      axios({method: "delete", url: `http://192.168.35.128:8080/stats/program/${dpid[0]}/${name}`, type: 'json'})
+      axios({method: "delete", url: `${url}/stats/program/${dpid[0]}/${name}`, type: 'json'})
         .then(function (response) {
           console.log(response);
           // console.log(program,typeof program);
@@ -87,7 +94,7 @@ export default function Four() {
   ];
 
   useEffect(() => {
-    axios({method: "get", url: "http://192.168.35.128:8080/stats/net/edge"})
+    axios({method: "get", url: `${url}/stats/net/edge`})
       .then(function (response) {
         setDpid(response.data)
       });
@@ -99,12 +106,12 @@ export default function Four() {
     <div>
       选择目标交换机 {dpid.map((i) => {
         return (
-          <button onClick={() => {
+          <Button onClick={() => {
             myRequest(i)
-          }}>{i}</button>
+          }}>{i}</Button>
         )
       })}
-      <div>
+      <div className={"down"}>
       {< Table columns = {
           columns
         }

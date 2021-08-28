@@ -1,12 +1,20 @@
 import React from "react";
 import { useState } from "react";
-import { Layout, Menu, PageHeader } from "antd";
+import { Layout, Menu, PageHeader ,Image} from "antd";
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  ApartmentOutlined,
+SettingOutlined,
+TeamOutlined,
+ToolOutlined,
+CloudUploadOutlined,
+EyeOutlined,
+ProfileOutlined,
+FolderViewOutlined
 } from "@ant-design/icons";
 
 import { Link, Route } from "react-router-dom";
@@ -20,7 +28,7 @@ import Seven from "./pages/Seven";
 import Eight from "./pages/Eight";
 import Nine from "./pages/Nine";
 import "./App.css";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer, Sider, } = Layout;
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
   const toggle = () => {
@@ -35,38 +43,41 @@ export default function App() {
         collapsible
         collapsed={collapsed}
       >
-        <div className="logo">DMU_CTF</div>
+        <div className={"mylogo"}>
+          <div className={"font"}>跳变管理系统</div>
+          
+          </div>
 
         <Menu theme="dark" mode="inline">
-          <Menu.Item key="a" icon={<UserOutlined />}>
+          <Menu.Item key="a" icon={<ApartmentOutlined />}>
             <Link to="/pageOne">显示当前网络拓扑结构</Link>
          
           </Menu.Item>
 
-          <Menu.Item key="b" icon={<UserOutlined />}>
+          <Menu.Item key="b" icon={<SettingOutlined />}>
             <Link to="/pageTwo">管理交换机配置文件和程序</Link>
           </Menu.Item>
 
-          <Menu.Item key="c" icon={<UserOutlined />}>
-            <Link to="/pageThree">管理交换机用户</Link>
+          <Menu.Item key="c" icon={<TeamOutlined />}>
+            <Link to="/pageThree">查看交换机用户</Link>
           </Menu.Item>
 
-          <Menu.Item key="d" icon={<UserOutlined />}>
+          <Menu.Item key="d" icon={<ToolOutlined />}>
             <Link to="/pageFour">小程序配置用户身份</Link>
           </Menu.Item>
-          <Menu.Item key="e" icon={<UserOutlined />}>
+          <Menu.Item key="e" icon={<CloudUploadOutlined />}>
             <Link to="/pageFive">交换机动态安装库文件</Link>
           </Menu.Item>
-          <Menu.Item key="f" icon={<UserOutlined />}>
+          <Menu.Item key="f" icon={<EyeOutlined />}>
             <Link to="/pageSix">实时监控交换机状态</Link>
           </Menu.Item>
-          <Menu.Item key="g" icon={<UserOutlined />}>
+          <Menu.Item key="g" icon={<ProfileOutlined />}>
             <Link to="/pageSeven">显示和管理控制器应用</Link>
           </Menu.Item>
-          <Menu.Item key="h" icon={<UserOutlined />}>
+          {/* <Menu.Item key="h" icon={<UserOutlined />}>
             <Link to="/pageEight">可视化当前通信主机的数据流</Link>
-          </Menu.Item>
-          <Menu.Item key="i" icon={<UserOutlined />}>
+          </Menu.Item> */}
+          <Menu.Item key="i" icon={<FolderViewOutlined />}>
             <Link to="/pageNine">显示当前密钥和小程序</Link>
           </Menu.Item>
         </Menu>

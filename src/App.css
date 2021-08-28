@@ -1,9 +1,9 @@
 @import "~antd/dist/antd.css";
-.logo {
+.mylogo {
   height: 32px;
   margin: 16px;
-  background: rgba(255, 255, 255, 0.2);
-}
+  background: rgba(255, 255, 255, 0.3);
+  }
 .site-layout-sub-header-background {
   background: #fff;
 }
@@ -21,4 +21,13 @@
 
 .trigger:hover {
   color: #1890ff;
+}
+.down{
+  margin-top: 3em;
+}
+.font{
+  font-size: large;
+  text-align: center;
+  font-weight: bold;
+  color: rgba(216, 215, 215, 0.87);
 }

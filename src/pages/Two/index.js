@@ -1,19 +1,18 @@
 import React from "react";
 import axios from "axios";
-import {Table, Tag, loading, Input} from "antd";
+import {Table, Tag, loading, Input,message,Button} from "antd";
 import {useEffect, useState,useRef} from "react";
 import create from "@ant-design/icons/lib/components/IconFont";
+import urlObj from "../../const/const"
+import "./index.css";
 export default function Two() {
+
   const {Search} = Input;
 
-  const [loadStatus,
-    setLoadStatus] = useState();
-  const [dpid,
-    setDpid] = useState([]);
-  const [program,
-    setProgram] = useState([]);
-  const [config,
-    setConfig] = useState([]);
+  const [loadStatus,setLoadStatus] = useState();
+  const [dpid,setDpid] = useState([]);
+  const [program,setProgram] = useState([]);
+  const [config,setConfig] = useState([]);
 
     const [pValue,setpValue] = useState([])
     const [pValue_,setpValue_] = useState([])
@@ -22,6 +21,7 @@ export default function Two() {
     // const dpidnow = useRef();
     // const pInput = useRef(null);
     // const btn = useRef();
+    const {url} = urlObj;
     const handleChangep = (e)=>{
       setpValue(e.target.value)
     }
@@ -34,6 +34,10 @@ export default function Two() {
     const handleChangec_ = (e)=>{
       setpValue_(e.target.value)
     }
+       const success = () => {
+      message.success('操作成功');
+    };
+   
   //解析传回来的数据
   const Parse = (arr) => {
     let tempArr = [];
@@ -52,13 +56,14 @@ export default function Two() {
   }
   // 请求小程序和配置文件
   const myRequest = (i) => {
-    axios({method: "get", url: `http://192.168.35.128:8080/stats/program/${i}`, type: 'json'})
+    success()
+    axios({method: "get", url: `${url}/stats/program/${i}`, type: 'json'})
       .then(function (response) {
         setProgram(Parse(response.data.msg));
         console.log(Parse(response.data.msg));
         // console.log(program,typeof program);
       });
-    axios({method: "get", url: `http://192.168.35.128:8080/stats/config/${i}`, type: 'json'}).then(function (response) {
+    axios({method: "get", url: `${url}/stats/config/${i}`, type: 'json'}).then(function (response) {
       setConfig(Parse(response.data.msg));
       console.log(Parse(response.data.msg));
       // console.log(program,typeof program);
@@ -70,13 +75,13 @@ export default function Two() {
     
 
   let name = pValue;
-    axios({method: "put", url: `http://192.168.35.128:8080/stats/program/${dpid[0]}/${name}`, type: 'json'})
+    axios({method: "put", url: `${url}/stats/program/${dpid[0]}/${name}`, type: 'json'})
       .then(function (response) {
         console.log(response);
         // console.log(program,typeof program);
       });
       setTimeout(()=>{
-        alert('OK')
+        success()
       },1000)
      
   }
@@ -84,13 +89,13 @@ export default function Two() {
     
 
     let name = pValue_;
-      axios({method: "delete", url: `http://192.168.35.128:8080/stats/program/${dpid[0]}/${name}`, type: 'json'})
+      axios({method: "delete", url: `${url}/stats/program/${dpid[0]}/${name}`, type: 'json'})
         .then(function (response) {
           console.log(response);
           // console.log(program,typeof program);
         });
         setTimeout(()=>{
-          alert('OK')
+          success()
         },1000)
        
     }
@@ -99,7 +104,7 @@ export default function Two() {
     
 
     let name = cValue;
-      axios({method: "put", url: `http://192.168.35.128:8080/stats/config/${dpid[0]}/${name}`, type: 'json'})
+      axios({method: "put", url: `${url}/stats/config/${dpid[0]}/${name}`, type: 'json'})
         .then(function (response) {
           console.log(response);
           // console.log(program,typeof program);
@@ -112,7 +117,7 @@ export default function Two() {
     
 
       let name = cValue_;
-        axios({method: "delete", url: `http://192.168.35.128:8080/stats/config/${dpid[0]}/${name}`, type: 'json'})
+        axios({method: "delete", url: `${url}/stats/config/${dpid[0]}/${name}`, type: 'json'})
           .then(function (response) {
             console.log(response);
             // console.log(program,typeof program);
@@ -156,7 +161,7 @@ export default function Two() {
     }
   ];
   useEffect(() => {
-    axios({method: "get", url: "http://192.168.35.128:8080/stats/net/edge"})
+    axios({method: "get", url: `${url}/stats/net/edge`})
       .then(function (response) {
         setDpid(response.data)
       });
@@ -168,12 +173,13 @@ export default function Two() {
     <div>
       选择目标交换机 {dpid.map((i) => {
         return (
-          <button onClick={() => {
+          <Button onClick={() => {
             myRequest(i)
-          }}>{i}</button>
+          }}>{i}</Button>
         )
       })}
-      <div>
+
+      <div className={"down"}>
         <Search value={pValue} onChange={handleChangep} placeholder="输入要添加的小程序名称" allowClear enterButton="添加小程序" size="large"  onSearch={addProg}
       /> 
        <Search value={pValue_} onChange={handleChangep_} placeholder="输入要删除的小程序名称" allowClear enterButton=" 删除小程序" size="large"  onSearch={delProg}
