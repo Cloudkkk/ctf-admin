@@ -85,7 +85,7 @@ export default function Five() {
       })}
       </div >
       <div className={"down"}>
-      <Search  placeholder="输入Shell脚本" allowClear enterButton="自定义shell配置" size="large"  onSearch={()=>{setTimeout(() => {
+      <Search  placeholder="输入shell命令" allowClear enterButton="执行" size="large"  onSearch={()=>{setTimeout(() => {
         success()
       }, 1000);}}
       />
