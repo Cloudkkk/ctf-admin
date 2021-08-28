@@ -44,7 +44,7 @@ export default function Two() {
     if (Array.isArray(arr)) {
       arr.forEach((item) => {
         let obj = {
-          name: item[0],
+          name: item[0].split('_')[1],
           time: item[1],
           size: item[2]
         }
@@ -155,7 +155,7 @@ export default function Two() {
       dataIndex: "time",
       key: "time"
     }, {
-      title: "Size",
+      title: "Size(byte)",
       dataIndex: "size",
       key: "size"
     }
@@ -180,10 +180,10 @@ export default function Two() {
       })}
 
       <div className={"down"}>
-        <Search value={pValue} onChange={handleChangep} placeholder="输入要添加的小程序名称" allowClear enterButton="添加小程序" size="large"  onSearch={addProg}
-      /> 
-       <Search value={pValue_} onChange={handleChangep_} placeholder="输入要删除的小程序名称" allowClear enterButton=" 删除小程序" size="large"  onSearch={delProg}
-      />
+        {/* <Search value={pValue} onChange={handleChangep} placeholder="输入要添加的小程序名称" allowClear enterButton="添加小程序" size="large"  onSearch={addProg}
+      />  */}
+   <Search value={pValue_} onChange={handleChangep_} placeholder="输入要删除的小程序名称" allowClear enterButton=" 删除小程序" size="large"  onSearch={delProg}
+      />    
       {< Table columns = {
           columns
         }
@@ -192,8 +192,8 @@ export default function Two() {
         } > </Table>}
       </div>
       <div>
-        <Search value={cValue} onChange={handleChangec} placeholder="输入要添加的配置名称" allowClear enterButton="添加配置文件" size="large"  onSearch={addConf
-      }/> 
+        {/* <Search value={cValue} onChange={handleChangec} placeholder="输入要添加的配置名称" allowClear enterButton="添加配置文件" size="large"  onSearch={addConf
+      }/>  */}
       <Search value={cValue_} onChange={handleChangec_} placeholder="输入要删除的配置名称" allowClear enterButton=" 删除配置文件" size="large"  onSearch={delConf}
       />{< Table columns = {
           columns_
